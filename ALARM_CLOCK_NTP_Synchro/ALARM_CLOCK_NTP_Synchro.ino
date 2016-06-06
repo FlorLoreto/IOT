@@ -149,17 +149,9 @@ void stringtoNumber(String instruct) {
 
 }
 //=============== WiFI connections ================================
-// ............. Connect to WiFi LAN  ...............................
-void lanConnect(String ssid, String pass) {
-  // check for the presence of the shield:
-  if (WiFi.status() == WL_NO_SHIELD) {
-    Serial.println("WiFi shield not present");
-    // don't continue:
-    while (true);
-  }
-
-  // attempt to connect to Wifi network:
-  while ( status != WL_CONNECTED) {
+//--------------  CONECTAR --------------------------------------
+void conecta(){
+while ( status != WL_CONNECTED) {
     Serial.print("Attempting to connect to SSID: ");
     Serial.println(ssid);
     // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
@@ -171,7 +163,18 @@ void lanConnect(String ssid, String pass) {
       ;
     } reloj.reset();
   }
+}
+// ............. Connect to WiFi LAN  ...............................
+void lanConnect(String ssid, String pass) {
+  // check for the presence of the shield:
+  if (WiFi.status() == WL_NO_SHIELD) {
+    Serial.println("WiFi shield not present");
+    // don't continue:
+    while (true);
+  }
 
+  // attempt to connect to Wifi network:
+  conecta();
   Serial.println("Connected to wifi");
   printWifiStatus();
   reloj.start();
@@ -226,6 +229,7 @@ unsigned long sendNTPpacket(IPAddress& address)
 void Synchro() {
   Serial.println("Soy EL SINCRONIZADOR ");
   reloj.start();
+  conecta();
   // send an NTP packet to a time server
   sendNTPpacket(timeServer);
   // wait to see if a reply is available
